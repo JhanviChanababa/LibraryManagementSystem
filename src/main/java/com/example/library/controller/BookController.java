@@ -43,7 +43,7 @@ public class BookController {
 	public ResponseEntity<Map> addBook(@RequestBody Book book) {
 
 		Response<Book> res = bookService.addBook(book);
-		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"librarian", res.getObject()), res.getHttpStatus());
+		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"book", res.getObject()), res.getHttpStatus());
 
 	}
 
@@ -51,7 +51,7 @@ public class BookController {
 	public ResponseEntity<Map> updateBook(@RequestBody Book book) {
 
 		Response<Book> res = bookService.updateBook(book);
-		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"librarian", res.getObject()), res.getHttpStatus());
+		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"book", res.getObject()), res.getHttpStatus());
 
 	}
 
@@ -59,7 +59,7 @@ public class BookController {
 	public ResponseEntity<Map> deleteBook(@RequestParam UUID bookId) {
 
 		Response<Book> res = bookService.deleteBook(bookId);
-		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"librarian", res.getObject()), res.getHttpStatus());
+		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"book", res.getObject()), res.getHttpStatus());
 
 	}
 
@@ -67,7 +67,7 @@ public class BookController {
 	public ResponseEntity<Map> updateBook(@RequestParam UUID bookId, @RequestBody JsonPatch patch) {
 
 		Response<Book> res = bookService.updateBookDetails(bookId, patch);
-		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"librarian", res.getObject()), res.getHttpStatus());
+		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"book", res.getObject()), res.getHttpStatus());
 
 	}
 }

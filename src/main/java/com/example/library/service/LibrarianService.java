@@ -79,7 +79,7 @@ public class LibrarianService {
 			res.setHttpStatus(HttpStatus.OK);
 
 		} catch (RuntimeException ex) {
-			res.setMessage(AppConst.ResponseMessages.LIBRARIAN_EXISTS);
+			res.setMessage(AppConst.ResponseMessages.LIBRARIAN_NOT_EXISTS);
 			res.setHttpStatus(HttpStatus.BAD_REQUEST);
 		} catch (Exception ex) {
 			res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);

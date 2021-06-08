@@ -32,7 +32,7 @@ public class UserService {
 			res.setHttpStatus(HttpStatus.OK);
 
 		} catch (RuntimeException ex) {
-			res.setMessage(AppConst.ResponseMessages.USER_EXISTS);
+			res.setMessage(AppConst.ResponseMessages.USER_NOT_EXISTS);
 			res.setHttpStatus(HttpStatus.BAD_REQUEST);
 		} catch (Exception ex) {
 			res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
@@ -50,13 +50,13 @@ public class UserService {
 
 			String hashedPassword = Utility.encryptPassword(user.getPassword());
 			user.setPassword(hashedPassword);
-			User u = userRepoInterface.save(user);
+			User addedUser = userRepoInterface.save(user);
 
-			if (u == null) {
+			if (addedUser == null) {
 				res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
 				res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 			} else {
-				res.setObject(u);
+				res.setObject(addedUser);
 				res.setMessage(AppConst.ResponseMessages.USER_ADDED);
 				res.setHttpStatus(HttpStatus.OK);
 			}

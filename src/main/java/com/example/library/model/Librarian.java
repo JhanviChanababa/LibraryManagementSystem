@@ -35,7 +35,7 @@ public class Librarian {
 
 	private String address;
 
-	private Long contact_number;
+	private String contact_number;
 
 	private Long salary;
 
@@ -55,11 +55,11 @@ public class Librarian {
 		this.address = address;
 	}
 
-	public Long getContactNumber() {
+	public String getContactNumber() {
 		return contact_number;
 	}
 
-	public void setContactNumber(Long contactNumber) {
+	public void setContactNumber(String contactNumber) {
 		this.contact_number = contactNumber;
 	}
 

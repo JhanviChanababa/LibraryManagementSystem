@@ -10,6 +10,7 @@ public class AppConst {
 		public static final String LOGGEDIN_USER = "User loggedin successfully";
 		public static final String USER_UPDATED = "User updated successfully";
 		public static final String USER_EXISTS = "User with same ID already exists";
+		public static final String USER_NOT_EXISTS = "User does not exist";
 		public static final String USER_EMAIL_EXISTS = "User with same email already exists";
 		public static final String GET_USER = "User retrieved successfully";
 		public static final String LIBRARIAN_ADDED = "Librarian added successfully";
@@ -17,6 +18,7 @@ public class AppConst {
 		public static final String LOGGEDIN_LIBRARIAN = "Librarian loggedin successfully";
 		public static final String LIBRARIAN_UPDATED = "Librarian updated successfully";
 		public static final String LIBRARIAN_EXISTS = "Librarian with same ID already exists";
+		public static final String LIBRARIAN_NOT_EXISTS = "Librarian does not exist";
 		public static final String LIBRARIAN_EMAIL_EXISTS = "Librarian with same email already exists";
 		public static final String GET_LIBRARIAN = "Librarian retrieved successfully";
 		public static final String BOOK_ADDED = "Book added successfully";

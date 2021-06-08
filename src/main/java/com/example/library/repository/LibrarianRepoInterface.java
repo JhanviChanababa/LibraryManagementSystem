@@ -10,6 +10,6 @@ import com.example.library.model.Librarian;
 
 public interface LibrarianRepoInterface extends JpaRepository<Librarian, UUID> {
 
-	@Query("select l from Librarian l where l.email = :email and l.password = :password")
+	@Query("select librarian from Librarian librarian where librarian.email = :email and librarian.password = :password")
 	Librarian authenticateUser(@Param("email") String email, @Param("password") String password);
 }

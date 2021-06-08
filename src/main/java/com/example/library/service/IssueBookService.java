@@ -58,24 +58,24 @@ public class IssueBookService {
 				IssuedBook issuedBook = issueBookInterface.save(issueBook);
 
 				if (issuedBook == null) {
-					res.setMessage(AppConst.INTERNAL_SERVER_ERROR);
+					res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
 					res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 				} else {
 
 					issuedBookRepo.addBookIssued(issuedBook);
 					res.setObject(issuedBook);
-					res.setMessage(AppConst.ISSUE_BOOK_ADDED);
+					res.setMessage(AppConst.ResponseMessages.ISSUE_BOOK_ADDED);
 					res.setHttpStatus(HttpStatus.OK);
 				}
 
 			} else {
-				res.setMessage(AppConst.USERID_BOOKID_NOT_EXISTS);
+				res.setMessage(AppConst.ResponseMessages.USERID_BOOKID_NOT_EXISTS);
 				res.setHttpStatus(HttpStatus.BAD_REQUEST);
 			}
 
 		} catch (Exception e) {
 
-			res.setMessage(AppConst.INTERNAL_SERVER_ERROR);
+			res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
 			res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 			
 		}
@@ -101,23 +101,23 @@ public class IssueBookService {
 				IssuedBook issuedBook = issueBookInterface.save(issueBook);
 
 				if (issuedBook == null) {
-					res.setMessage(AppConst.INTERNAL_SERVER_ERROR);
+					res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
 					res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 				} else {
 
 					issuedBookRepo.updateBookIssued(issuedBook);
 					res.setObject(issuedBook);
-					res.setMessage(AppConst.ISSUE_BOOK_UPDATED);
+					res.setMessage(AppConst.ResponseMessages.ISSUE_BOOK_UPDATED);
 					res.setHttpStatus(HttpStatus.OK);
 				}
 
 			} else {
-				res.setMessage(AppConst.USERID_BOOKID_NOT_EXISTS);
+				res.setMessage(AppConst.ResponseMessages.USERID_BOOKID_NOT_EXISTS);
 				res.setHttpStatus(HttpStatus.BAD_REQUEST);
 			}
 		} catch (Exception e) {
 
-			res.setMessage(AppConst.INTERNAL_SERVER_ERROR);
+			res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
 			res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 			
 		}
@@ -135,23 +135,23 @@ public class IssueBookService {
 			IssuedBook bookPatched = applyPatchToBook(patch, bookDetails);
 
 			if (bookPatched == null) {
-				res.setMessage(AppConst.INTERNAL_SERVER_ERROR);
+				res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
 				res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 			} else {
 				
 				IssuedBook issuedBook = issueBookInterface.save(bookPatched);
 				issuedBookRepo.updateBookIssued(issuedBook);
 				res.setObject(issuedBook);
-				res.setMessage(AppConst.ISSUE_BOOK_UPDATED);
+				res.setMessage(AppConst.ResponseMessages.ISSUE_BOOK_UPDATED);
 				res.setHttpStatus(HttpStatus.OK);
 				
 			}
 
 		} catch (RuntimeException ex) {
-			res.setMessage(AppConst.ISSUE_BOOK_NOT_EXISTS);
+			res.setMessage(AppConst.ResponseMessages.ISSUE_BOOK_NOT_EXISTS);
 			res.setHttpStatus(HttpStatus.NOT_FOUND);
 		} catch (Exception ex) {
-			res.setMessage(AppConst.INTERNAL_SERVER_ERROR);
+			res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
 			res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 

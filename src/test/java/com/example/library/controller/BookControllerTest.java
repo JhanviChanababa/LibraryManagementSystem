@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Arrays;
+import java.util.List;
 
 import org.jeasy.random.EasyRandom;
 import org.junit.Before;
@@ -48,9 +48,11 @@ public class BookControllerTest {
 
 	@MockBean
 	Librarian lib;
-
+	
 	@InjectMocks
 	BookController bookController;
+
+	private static final String PATH = "/book";
 
 	@Before
 	public void setupMock() {
@@ -67,7 +69,7 @@ public class BookControllerTest {
 
 		Book book = easyRandom.nextObject(Book.class);
 
-		MockHttpServletRequestBuilder requestBuilder = post("/book").accept(MediaType.APPLICATION_JSON_UTF8)
+		MockHttpServletRequestBuilder requestBuilder = post(PATH).accept(MediaType.APPLICATION_JSON_UTF8)
 				.contentType(MediaType.APPLICATION_JSON_UTF8).content(objectMapper.writeValueAsString(book));
 
 		res.setObject(book);
@@ -88,7 +90,7 @@ public class BookControllerTest {
 
 		Book book = easyRandom.nextObject(Book.class);
 
-		MockHttpServletRequestBuilder requestBuilder = put("/book").accept(MediaType.APPLICATION_JSON_UTF8)
+		MockHttpServletRequestBuilder requestBuilder = put(PATH).accept(MediaType.APPLICATION_JSON_UTF8)
 				.contentType(MediaType.APPLICATION_JSON_UTF8).content(objectMapper.writeValueAsString(book));
 
 		res.setObject(book);
@@ -104,10 +106,13 @@ public class BookControllerTest {
 	@Test
 	public void getbook() throws Exception {
 
-		MockHttpServletRequestBuilder requestBuilder = get("/book").param("searchString", "")
+		Response<List<Book>> res = new Response<List<Book>>();
+
+		MockHttpServletRequestBuilder requestBuilder = get(PATH).param("searchString", "")
 				.accept(MediaType.APPLICATION_JSON_UTF8).contentType(MediaType.APPLICATION_JSON_UTF8);
 
-		when(bookService.getBooks("")).thenReturn(Arrays.asList());
+		res.setHttpStatus(HttpStatus.OK);
+		when(bookService.getBooks("")).thenReturn(res);
 
 		mockMvc.perform(requestBuilder).andExpect(status().isOk());
 
@@ -122,7 +127,7 @@ public class BookControllerTest {
 
 		Book book = easyRandom.nextObject(Book.class);
 
-		MockHttpServletRequestBuilder requestBuilder = delete("/book").param("bookId", book.getId().toString())
+		MockHttpServletRequestBuilder requestBuilder = delete(PATH).param("bookId", book.getId().toString())
 				.accept(MediaType.APPLICATION_JSON_UTF8).contentType(MediaType.APPLICATION_JSON_UTF8)
 				.content(objectMapper.writeValueAsString(book));
 

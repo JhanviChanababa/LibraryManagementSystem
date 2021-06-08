@@ -36,21 +36,21 @@ public class BookService {
 			Book addedBook = bookRepoInterface.save(book);
 			
 			if (addedBook == null) {
-				res.setMessage(AppConst.INTERNAL_SERVER_ERROR);
+				res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
 				res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 			} else {
 				res.setObject(addedBook);
-				res.setMessage(AppConst.BOOK_ADDED);
+				res.setMessage(AppConst.ResponseMessages.BOOK_ADDED);
 				res.setHttpStatus(HttpStatus.OK);
 			}
 
 		} catch (Exception e) {
 
 			if (e.getCause() instanceof ConstraintViolationException) {
-				res.setMessage(AppConst.BOOK_ISBN_EXISTS);
+				res.setMessage(AppConst.ResponseMessages.BOOK_ISBN_EXISTS);
 				res.setHttpStatus(HttpStatus.CONFLICT);
 			} else {
-				res.setMessage(AppConst.INTERNAL_SERVER_ERROR);
+				res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
 				res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
@@ -58,8 +58,19 @@ public class BookService {
 		return res;
 	}
 
-	public List<Book> getBooks(String searchStr) {
-		return bookRepoInterface.getBooks(searchStr);
+	public Response<List<Book>> getBooks(String searchString) {
+		
+		Response<List<Book>> res = new Response<>();
+		List<Book> books = bookRepoInterface.getBooks(searchString);
+		
+		if(books == null) {
+			res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			res.setHttpStatus(HttpStatus.OK);
+		}
+		
+		res.setObject(books);
+		return res;
 	}
 	
 	public Response<Book> updateBook(Book book) {
@@ -73,27 +84,28 @@ public class BookService {
 			if (findBook.isPresent()) {
 
 				Book updatedBook = bookRepoInterface.save(book);
+				
 				if (updatedBook == null) {
-					res.setMessage(AppConst.INTERNAL_SERVER_ERROR);
+					res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
 					res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 				} else {
 					res.setObject(updatedBook);
-					res.setMessage(AppConst.BOOK_UPDATED);
+					res.setMessage(AppConst.ResponseMessages.BOOK_UPDATED);
 					res.setHttpStatus(HttpStatus.OK);
 				}
 
 			} else {
-				res.setMessage(AppConst.BOOK_NOT_EXISTS);
+				res.setMessage(AppConst.ResponseMessages.BOOK_NOT_EXISTS);
 				res.setHttpStatus(HttpStatus.NOT_FOUND);
 			}
 
 		} catch (Exception e) {
 
 			if (e.getCause() instanceof ConstraintViolationException) {
-				res.setMessage(AppConst.BOOK_NOT_EXISTS);
+				res.setMessage(AppConst.ResponseMessages.BOOK_NOT_EXISTS);
 				res.setHttpStatus(HttpStatus.CONFLICT);
 			} else {
-				res.setMessage(AppConst.INTERNAL_SERVER_ERROR);
+				res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
 				res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
@@ -108,11 +120,11 @@ public class BookService {
 		try {
 
 			bookRepoInterface.deleteById(id);
-			res.setMessage(AppConst.BOOK_UPDATED);
+			res.setMessage(AppConst.ResponseMessages.BOOK_UPDATED);
 			res.setHttpStatus(HttpStatus.OK);
 
 		} catch (Exception e) {
-			res.setMessage(AppConst.BOOK_NOT_EXISTS);
+			res.setMessage(AppConst.ResponseMessages.BOOK_NOT_EXISTS);
 			res.setHttpStatus(HttpStatus.NOT_FOUND);
 		}
 
@@ -132,15 +144,15 @@ public class BookService {
 
 				Book b = bookRepoInterface.save(bookPatched);
 				res.setObject(b);
-				res.setMessage(AppConst.BOOK_UPDATED);
+				res.setMessage(AppConst.ResponseMessages.BOOK_UPDATED);
 				res.setHttpStatus(HttpStatus.OK);
 			}
 
 		} catch (RuntimeException ex) {
-			res.setMessage(AppConst.BOOK_NOT_EXISTS);
+			res.setMessage(AppConst.ResponseMessages.BOOK_NOT_EXISTS);
 			res.setHttpStatus(HttpStatus.NOT_FOUND);
 		} catch (Exception ex) {
-			res.setMessage(AppConst.INTERNAL_SERVER_ERROR);
+			res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
 			res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 

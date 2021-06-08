@@ -16,7 +16,6 @@ public class UserMatcher implements ArgumentMatcher<User> {
 	public boolean matches(User right) {
 
 		return left.getEmail().equals(right.getEmail()) && left.getName().equals(right.getName())
-				&& left.getPassword().equals(right.getPassword()) && left.getDOB().compareTo(right.getDOB()) > 0
-				&& left.getId().compareTo(right.getId()) == 0;
+				&& left.getPassword().equals(right.getPassword()) && left.getId().compareTo(right.getId()) == 0;
 	}
 }

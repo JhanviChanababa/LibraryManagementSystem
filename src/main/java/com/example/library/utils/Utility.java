@@ -17,6 +17,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class Utility {
 
 	private static final int EXPIRY = 60; //mins
+	private final static String SECRET = "bsNgw9xHZ951qyV5FTIE";
 	
 	public static String encryptPassword(String password) {
 		
@@ -34,8 +35,7 @@ public class Utility {
 		  
         StringBuilder hexString = new StringBuilder(number.toString(16)); 
   
-        while (hexString.length() < 32) 
-        { 
+        while (hexString.length() < 32) { 
             hexString.insert(0, '0'); 
         } 
   
@@ -43,7 +43,7 @@ public class Utility {
 	}
 	
 	public static String getJWTToken(String username) {
-		String secretKey = "iAmInevitable";
+
 		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
 				.commaSeparatedStringToAuthorityList("ROLE_USER");
 		
@@ -58,7 +58,7 @@ public class Utility {
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRY * 60 * 1000))
 				.signWith(SignatureAlgorithm.HS512,
-						secretKey.getBytes()).compact();
+						SECRET.getBytes()).compact();
 
 		return "Bearer " + token;
 	}

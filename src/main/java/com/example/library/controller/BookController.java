@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,49 +24,46 @@ public class BookController {
 	@Autowired
 	BookService bookService;
 
-	private static final String path = "/book";
+	private static final String PATH = "/book";
+	private static final String RES_MESSAGE = "message";
+	private static final String RES_BODY = "book";
 
-	@RequestMapping(value = path, method = RequestMethod.GET)
+	// Get all books
+	@RequestMapping(value = PATH, method = RequestMethod.GET)
 	public ResponseEntity<List<Book>> getBooks(@RequestParam String searchString) {
-
-		List<Book> books = bookService.getBooks(searchString);
-
-		if (books == null) {
-			return new ResponseEntity<List<Book>>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-		return new ResponseEntity<List<Book>>(books, HttpStatus.OK);
+		Response<List<Book>> res = bookService.getBooks(searchString);
+		return new ResponseEntity<List<Book>>(res.getObject(), res.getHttpStatus());
 	}
 
-	@RequestMapping(value = path, method = RequestMethod.POST)
+	// Add a book
+	@RequestMapping(value = PATH, method = RequestMethod.POST)
 	public ResponseEntity<Map> addBook(@RequestBody Book book) {
-
 		Response<Book> res = bookService.addBook(book);
-		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"book", res.getObject()), res.getHttpStatus());
-
+		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
+				res.getHttpStatus());
 	}
 
-	@RequestMapping(value = path, method = RequestMethod.PUT)
+	// Update a book
+	@RequestMapping(value = PATH, method = RequestMethod.PUT)
 	public ResponseEntity<Map> updateBook(@RequestBody Book book) {
-
 		Response<Book> res = bookService.updateBook(book);
-		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"book", res.getObject()), res.getHttpStatus());
-
+		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
+				res.getHttpStatus());
 	}
 
-	@RequestMapping(value = path, method = RequestMethod.DELETE)
+	// Delete a book
+	@RequestMapping(value = PATH, method = RequestMethod.DELETE)
 	public ResponseEntity<Map> deleteBook(@RequestParam UUID bookId) {
-
 		Response<Book> res = bookService.deleteBook(bookId);
-		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"book", res.getObject()), res.getHttpStatus());
-
+		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
+				res.getHttpStatus());
 	}
 
-	@RequestMapping(value = path, method = RequestMethod.PATCH, consumes = AppConst.JSON_PATCH)
+	// Update book details
+	@RequestMapping(value = PATH, method = RequestMethod.PATCH, consumes = AppConst.ResponseMessages.JSON_PATCH)
 	public ResponseEntity<Map> updateBook(@RequestParam UUID bookId, @RequestBody JsonPatch patch) {
-
 		Response<Book> res = bookService.updateBookDetails(bookId, patch);
-		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"book", res.getObject()), res.getHttpStatus());
-
+		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
+				res.getHttpStatus());
 	}
 }

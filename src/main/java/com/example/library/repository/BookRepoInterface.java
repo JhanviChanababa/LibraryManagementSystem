@@ -11,6 +11,6 @@ import com.example.library.model.Book;
 
 public interface BookRepoInterface extends JpaRepository<Book, UUID> {
 
-	@Query("select b from Book b where b.name like %:searchStr% or b.author_name like %:searchStr% and is_active=true")
-	List<Book> getBooks(@Param("searchStr") String searchStr);
+	@Query("select book from Book book where book.name like %:searchStr% or book.author_name like %:searchString% and is_active=true")
+	List<Book> getBooks(@Param("searchString") String searchString);
 }

@@ -24,49 +24,57 @@ public class LibrarianController {
 
 	@Autowired
 	private LibrarianService librarianService;
-	
-	private static final String path="/librarian";
 
-	@RequestMapping(value = path, method = RequestMethod.GET)
+	private static final String PATH = "/librarian";
+	private static final String RES_MESSAGE = "message";
+	private static final String RES_BODY = "librarian";
+
+	// Get a librarian
+	@RequestMapping(value = PATH, method = RequestMethod.GET)
 	public ResponseEntity<Map> getLibrarian(@RequestParam UUID id) {
-
 		Response<Librarian> res = librarianService.getLibrarian(id);
-		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"librarian", res.getObject()), res.getHttpStatus());
-
+		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
+				res.getHttpStatus());
 	}
 
-	@RequestMapping(value = path, method = RequestMethod.POST)
+	// Add a librarian
+	@RequestMapping(value = PATH, method = RequestMethod.POST)
 	public ResponseEntity<Map> addUser(@RequestBody Librarian librarian) {
 
 		Response<Librarian> res = librarianService.addLibrarian(librarian);
 		String token = Utility.getJWTToken(librarian.getName());
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.set("Authorization", token);
-		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"librarian", res.getObject()), responseHeaders, res.getHttpStatus());
+		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
+				responseHeaders, res.getHttpStatus());
 
 	}
 
-	@RequestMapping(value = path+"/login", method = RequestMethod.POST)
+	// Librarian login
+	@RequestMapping(value = PATH + "/login", method = RequestMethod.POST)
 	public ResponseEntity<Map> loginUser(@RequestBody Librarian librarian) {
 
 		Librarian authicatedUser = librarianService.authenticateUser(librarian);
 		String token = Utility.getJWTToken(librarian.getEmail());
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.set("Authorization", token);
-		
-		if(authicatedUser == null) {
-			return new ResponseEntity<Map>(Map.of("message", AppConst.UNAUTHORIZED_LIBRARIAN), HttpStatus.UNAUTHORIZED);
+
+		if (authicatedUser == null) {
+			return new ResponseEntity<Map>(Map.of(RES_MESSAGE, AppConst.ResponseMessages.UNAUTHORIZED_LIBRARIAN),
+					HttpStatus.UNAUTHORIZED);
 
 		}
-		
-		return new ResponseEntity<Map>(Map.of("message", AppConst.LOGGEDIN_LIBRARIAN), responseHeaders, HttpStatus.OK);
+
+		return new ResponseEntity<Map>(
+				Map.of(RES_MESSAGE, AppConst.ResponseMessages.LOGGEDIN_LIBRARIAN, RES_BODY, authicatedUser),
+				responseHeaders, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = path, method = RequestMethod.PUT)
+	// Update a librarian
+	@RequestMapping(value = PATH, method = RequestMethod.PUT)
 	public ResponseEntity<Map> updateLibrarian(@RequestBody Librarian lib) {
-
 		Response<Librarian> res = librarianService.updateLibrarian(lib);
-		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"librarian", res.getObject()), res.getHttpStatus());
-
+		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
+				res.getHttpStatus());
 	}
 }

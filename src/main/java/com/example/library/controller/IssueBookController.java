@@ -25,36 +25,38 @@ public class IssueBookController {
 	@Autowired
 	IssueBookService issueBookService;
 
-	private static final String path = "/issueBook";
+	private static final String PATH = "/issueBook";
+	private static final String RES_MESSAGE = "message";
+	private static final String RES_BODY = "issuedBook";
 
-	@RequestMapping(value = path, method = RequestMethod.GET)
+	// Get all issued books
+	@RequestMapping(value = PATH, method = RequestMethod.GET)
 	public ResponseEntity<List<IssuedBook>> getBooks() {
-
 		List<IssuedBook> issuedBooks = issueBookService.getIssuedBooks();
 		return new ResponseEntity<List<IssuedBook>>(issuedBooks, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = path, method = RequestMethod.POST)
+	// Issue a book
+	@RequestMapping(value = PATH, method = RequestMethod.POST)
 	public ResponseEntity<Map> addBookIssued(@RequestBody IssuedBook bookIssued) {
-
 		Response<IssuedBook> res = issueBookService.addIssuedBook(bookIssued);
-		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"issuedBook", res.getObject()), res.getHttpStatus());
-
+		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
+				res.getHttpStatus());
 	}
 
-	@RequestMapping(value = path, method = RequestMethod.PUT)
+	// Update an issued book
+	@RequestMapping(value = PATH, method = RequestMethod.PUT)
 	public ResponseEntity<Map> updateBookIssued(@RequestBody IssuedBook bookIssued) {
-
 		Response<IssuedBook> res = issueBookService.updateIssuedBook(bookIssued);
-		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"issuedBook", res.getObject()), res.getHttpStatus());
+		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
+				res.getHttpStatus());
 	}
 
-	@RequestMapping(value = path, method = RequestMethod.PATCH, consumes = AppConst.JSON_PATCH)
+	// Update details of an issued book 
+	@RequestMapping(value = PATH, method = RequestMethod.PATCH, consumes = AppConst.ResponseMessages.JSON_PATCH)
 	public ResponseEntity<Map> updateBookIssued(@RequestParam UUID id, @RequestBody JsonPatch patch) {
-
 		Response<IssuedBook> res = issueBookService.updateIssuedBookDetails(id, patch);
-		return new ResponseEntity<Map>(
-				Map.of("message", res.getMessage(), "issuedBook", res.getObject()), res.getHttpStatus());
-
+		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
+				res.getHttpStatus());
 	}
 }

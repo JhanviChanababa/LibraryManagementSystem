@@ -47,6 +47,8 @@ public class LibrarianControllerTest {
 	@InjectMocks
 	private LibrarianController librarianController;
 
+	private static final String PATH = "/librarian";
+
 	@Before
 	public void setupMock() {
 		MockitoAnnotations.initMocks(this);
@@ -62,9 +64,8 @@ public class LibrarianControllerTest {
 
 		Librarian librarian = easyRandom.nextObject(Librarian.class);
 
-		MockHttpServletRequestBuilder requestBuilder = post("/librarian").servletPath("/librarian")
-				.accept(MediaType.APPLICATION_JSON_UTF8).contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(objectMapper.writeValueAsString(librarian));
+		MockHttpServletRequestBuilder requestBuilder = post(PATH).accept(MediaType.APPLICATION_JSON_UTF8)
+				.contentType(MediaType.APPLICATION_JSON_UTF8).content(objectMapper.writeValueAsString(librarian));
 
 		res.setObject(librarian);
 		res.setMessage("");
@@ -84,9 +85,8 @@ public class LibrarianControllerTest {
 
 		Librarian librarian = easyRandom.nextObject(Librarian.class);
 
-		MockHttpServletRequestBuilder requestBuilder = post("/librarian/login").servletPath("/librarian/login")
-				.accept(MediaType.APPLICATION_JSON_UTF8).contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(objectMapper.writeValueAsString(librarian));
+		MockHttpServletRequestBuilder requestBuilder = post(PATH + "/login").accept(MediaType.APPLICATION_JSON_UTF8)
+				.contentType(MediaType.APPLICATION_JSON_UTF8).content(objectMapper.writeValueAsString(librarian));
 
 		res.setObject(librarian);
 		res.setMessage("");
@@ -107,9 +107,8 @@ public class LibrarianControllerTest {
 
 		Librarian librarian = easyRandom.nextObject(Librarian.class);
 
-		MockHttpServletRequestBuilder requestBuilder = put("/librarian").servletPath("/librarian")
-				.accept(MediaType.APPLICATION_JSON_UTF8).contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(objectMapper.writeValueAsString(librarian));
+		MockHttpServletRequestBuilder requestBuilder = put(PATH).accept(MediaType.APPLICATION_JSON_UTF8)
+				.contentType(MediaType.APPLICATION_JSON_UTF8).content(objectMapper.writeValueAsString(librarian));
 
 		res.setObject(librarian);
 		res.setMessage("");
@@ -126,7 +125,7 @@ public class LibrarianControllerTest {
 
 		UUID uuid = UUID.randomUUID();
 
-		MockHttpServletRequestBuilder requestBuilder = get("/librarian").param("id", uuid.toString())
+		MockHttpServletRequestBuilder requestBuilder = get(PATH).param("id", uuid.toString())
 				.accept(MediaType.APPLICATION_JSON_UTF8).contentType(MediaType.APPLICATION_JSON_UTF8);
 
 		Librarian lib = new Librarian();

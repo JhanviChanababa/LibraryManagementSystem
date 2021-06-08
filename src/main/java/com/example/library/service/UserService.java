@@ -28,14 +28,14 @@ public class UserService {
 
 			User user = userRepoInterface.findById(id).orElseThrow(RuntimeException::new);
 			res.setObject(user);
-			res.setMessage(AppConst.GET_USER);
+			res.setMessage(AppConst.ResponseMessages.GET_USER);
 			res.setHttpStatus(HttpStatus.OK);
 
 		} catch (RuntimeException ex) {
-			res.setMessage(AppConst.USER_EXISTS);
+			res.setMessage(AppConst.ResponseMessages.USER_EXISTS);
 			res.setHttpStatus(HttpStatus.BAD_REQUEST);
 		} catch (Exception ex) {
-			res.setMessage(AppConst.INTERNAL_SERVER_ERROR);
+			res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
 			res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -53,21 +53,21 @@ public class UserService {
 			User u = userRepoInterface.save(user);
 
 			if (u == null) {
-				res.setMessage(AppConst.INTERNAL_SERVER_ERROR);
+				res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
 				res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 			} else {
 				res.setObject(u);
-				res.setMessage(AppConst.USER_ADDED);
+				res.setMessage(AppConst.ResponseMessages.USER_ADDED);
 				res.setHttpStatus(HttpStatus.OK);
 			}
 
 		} catch (Exception e) {
 
 			if (e.getCause() instanceof ConstraintViolationException) {
-				res.setMessage(AppConst.USER_EMAIL_EXISTS);
+				res.setMessage(AppConst.ResponseMessages.USER_EMAIL_EXISTS);
 				res.setHttpStatus(HttpStatus.CONFLICT);
 			} else {
-				res.setMessage(AppConst.INTERNAL_SERVER_ERROR);
+				res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
 				res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
@@ -103,23 +103,21 @@ public class UserService {
 				User updatedUser = userRepoInterface.save(user);
 
 				if (updatedUser == null) {
-					res.setMessage(AppConst.INTERNAL_SERVER_ERROR);
+					res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
 					res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 				} else {
-
 					res.setObject(updatedUser);
-					res.setMessage(AppConst.USER_UPDATED);
+					res.setMessage(AppConst.ResponseMessages.USER_UPDATED);
 					res.setHttpStatus(HttpStatus.OK);
-
 				}
 
 			} else {
-				res.setMessage(AppConst.USER_EXISTS);
+				res.setMessage(AppConst.ResponseMessages.USER_EXISTS);
 				res.setHttpStatus(HttpStatus.BAD_REQUEST);
 			}
 
 		} catch (Exception e) {
-			res.setMessage(AppConst.INTERNAL_SERVER_ERROR);
+			res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
 			res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 

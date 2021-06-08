@@ -10,6 +10,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepoInterface extends JpaRepository<User, UUID> {
 
-	@Query("select u from User u where u.email = :email and u.password = :password")
+	@Query("select user from User user where user.email = :email and user.password = :password")
 	User authenticateUser(@Param("email") String email, @Param("password") String password);
 }

@@ -37,22 +37,24 @@ public class IssueBookControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@Autowired
 	ObjectMapper objectMapper;
-	
+
 	@MockBean
 	IssueBookService issueBookService;
-	
+
 	@InjectMocks
 	IssueBookController issueBookController;
-	
+
+	private static final String PATH = "/issueBook";
+
 	@Before
 	public void setupMock() {
 		MockitoAnnotations.initMocks(this);
 		this.mockMvc = MockMvcBuilders.standaloneSetup(issueBookController).build();
 	}
-	
+
 	@Test
 	public void testAddBookIssued() throws Exception {
 
@@ -61,11 +63,10 @@ public class IssueBookControllerTest {
 		EasyRandom easyRandom = new EasyRandom();
 
 		IssuedBook book = easyRandom.nextObject(IssuedBook.class);
-		
-		MockHttpServletRequestBuilder requestBuilder = post("/issueBook")
-				.accept(MediaType.APPLICATION_JSON_UTF8).contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(objectMapper.writeValueAsString(book));
-		
+
+		MockHttpServletRequestBuilder requestBuilder = post(PATH).accept(MediaType.APPLICATION_JSON_UTF8)
+				.contentType(MediaType.APPLICATION_JSON_UTF8).content(objectMapper.writeValueAsString(book));
+
 		res.setObject(book);
 		res.setMessage("");
 		res.setHttpStatus(HttpStatus.OK);
@@ -75,7 +76,7 @@ public class IssueBookControllerTest {
 		mockMvc.perform(requestBuilder).andExpect(status().isOk());
 
 	}
-	
+
 	@Test
 	public void testUpdatebook() throws Exception {
 
@@ -86,29 +87,27 @@ public class IssueBookControllerTest {
 		IssuedBook book = easyRandom.nextObject(IssuedBook.class);
 		Mockito.when(issueBookService.addIssuedBook(book)).thenReturn(res);
 
-		MockHttpServletRequestBuilder requestBuilder = put("/issueBook")
-				.accept(MediaType.APPLICATION_JSON_UTF8).contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(objectMapper.writeValueAsString(book));
+		MockHttpServletRequestBuilder requestBuilder = put(PATH).accept(MediaType.APPLICATION_JSON_UTF8)
+				.contentType(MediaType.APPLICATION_JSON_UTF8).content(objectMapper.writeValueAsString(book));
 
 		res.setObject(book);
 		res.setMessage("");
 		res.setHttpStatus(HttpStatus.OK);
 
 		when(issueBookService.updateIssuedBook(Mockito.argThat(new IssuedBookMatcher(book)))).thenReturn(res);
-		
+
 		mockMvc.perform(requestBuilder).andExpect(status().isOk());
-		
 
 	}
-	
+
 	@Test
 	public void getIssuedBooks() throws Exception {
-		
-		MockHttpServletRequestBuilder requestBuilder = get("/issueBook")
-				.accept(MediaType.APPLICATION_JSON_UTF8).contentType(MediaType.APPLICATION_JSON_UTF8);
+
+		MockHttpServletRequestBuilder requestBuilder = get(PATH).accept(MediaType.APPLICATION_JSON_UTF8)
+				.contentType(MediaType.APPLICATION_JSON_UTF8);
 
 		when(issueBookService.getIssuedBooks()).thenReturn(Arrays.asList());
-		
+
 		mockMvc.perform(requestBuilder).andExpect(status().isOk());
 
 	}

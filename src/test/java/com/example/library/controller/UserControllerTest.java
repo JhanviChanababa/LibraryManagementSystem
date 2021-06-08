@@ -51,6 +51,8 @@ public class UserControllerTest {
 	@InjectMocks
 	private UserController userController;
 
+	private static final String PATH = "/user";
+
 	@Before
 	public void setupMock() {
 		MockitoAnnotations.initMocks(this);
@@ -64,7 +66,7 @@ public class UserControllerTest {
 
 		User user = easyRandom.nextObject(User.class);
 
-		MockHttpServletRequestBuilder requestBuilder = post("/user").accept(MediaType.APPLICATION_JSON_UTF8)
+		MockHttpServletRequestBuilder requestBuilder = post(PATH).accept(MediaType.APPLICATION_JSON_UTF8)
 				.contentType(MediaType.APPLICATION_JSON_UTF8).content(objectMapper.writeValueAsString(user));
 
 		Response<User> res = new Response<>();
@@ -81,14 +83,12 @@ public class UserControllerTest {
 	@Test
 	public void testLoginUser() throws Exception {
 
-		User res = new User();
-
 		EasyRandom easyRandom = new EasyRandom();
 
 		User user = easyRandom.nextObject(User.class);
 		Mockito.when(userService.authenticateUser(Mockito.argThat(new UserMatcher(user)))).thenReturn(user);
 
-		MockHttpServletRequestBuilder requestBuilder = post("/user/login").accept(MediaType.APPLICATION_JSON_UTF8)
+		MockHttpServletRequestBuilder requestBuilder = post(PATH + "/login").accept(MediaType.APPLICATION_JSON_UTF8)
 				.contentType(MediaType.APPLICATION_JSON_UTF8).content(objectMapper.writeValueAsString(user));
 
 		mockMvc.perform(requestBuilder).andExpect(status().isOk());
@@ -102,14 +102,14 @@ public class UserControllerTest {
 
 		User user = easyRandom.nextObject(User.class);
 
-		MockHttpServletRequestBuilder requestBuilder = put("/user").accept(MediaType.APPLICATION_JSON_UTF8)
+		MockHttpServletRequestBuilder requestBuilder = put(PATH).accept(MediaType.APPLICATION_JSON_UTF8)
 				.contentType(MediaType.APPLICATION_JSON_UTF8).content(objectMapper.writeValueAsString(user));
 
 		Response<User> res = new Response<>();
 		res.setObject(user);
 		res.setMessage("");
 		res.setHttpStatus(HttpStatus.OK);
-		
+
 		when(userService.updateUser(Mockito.argThat(new UserMatcher(user)))).thenReturn(res);
 
 		mockMvc.perform(requestBuilder).andExpect(status().isOk());
@@ -121,12 +121,12 @@ public class UserControllerTest {
 
 		UUID uuid = UUID.randomUUID();
 
-		MockHttpServletRequestBuilder requestBuilder = get("/user").param("id", uuid.toString()).accept(MediaType.APPLICATION_JSON_UTF8)
-				.contentType(MediaType.APPLICATION_JSON_UTF8);
+		MockHttpServletRequestBuilder requestBuilder = get(PATH).param("id", uuid.toString())
+				.accept(MediaType.APPLICATION_JSON_UTF8).contentType(MediaType.APPLICATION_JSON_UTF8);
 
-		User u = new User();
+		User user = new User();
 		Response<User> res = new Response<>();
-		res.setObject(u);
+		res.setObject(user);
 		res.setMessage("");
 		res.setHttpStatus(HttpStatus.OK);
 		when(userService.getUser(uuid)).thenReturn(res);

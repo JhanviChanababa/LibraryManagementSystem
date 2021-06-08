@@ -25,46 +25,54 @@ public class UserController {
 	@Autowired
 	UserRepoInterface userRepoInterface;
 
-	private static final String path = "/user";
+	private static final String PATH = "/user";
+	private static final String RES_MESSAGE = "message";
+	private static final String RES_BODY = "user";
 
-	@RequestMapping(value = path, method = RequestMethod.GET)
+	// Get a user by id
+	@RequestMapping(value = PATH, method = RequestMethod.GET)
 	public ResponseEntity<Map> getUser(@RequestParam UUID id) {
-
 		Response<User> res = userService.getUser(id);
-		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"user", res.getObject()), res.getHttpStatus());
-
+		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
+				res.getHttpStatus());
 	}
 
-	@RequestMapping(value = path, method = RequestMethod.POST)
+	// Add a user
+	@RequestMapping(value = PATH, method = RequestMethod.POST)
 	public ResponseEntity<Map> addUser(@RequestBody User user) {
 
 		Response<User> res = userService.addUser(user);
 		String token = Utility.getJWTToken(user.getName());
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.set("Authorization", token);
-		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"user", res.getObject()), responseHeaders, res.getHttpStatus());
+		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
+				responseHeaders, res.getHttpStatus());
 	}
 
-	@RequestMapping(value = path + "/login", method = RequestMethod.POST)
+	// User login
+	@RequestMapping(value = PATH + "/login", method = RequestMethod.POST)
 	public ResponseEntity<Map> loginUser(@RequestBody User user) {
 
 		User authicatedUser = userService.authenticateUser(user);
 		String token = Utility.getJWTToken(user.getEmail());
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.set("Authorization", token);
-		
+
 		if (authicatedUser == null) {
-			return new ResponseEntity<Map>(Map.of("message", AppConst.UNAUTHORIZED_USER), HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<Map>(Map.of(RES_MESSAGE, AppConst.ResponseMessages.UNAUTHORIZED_USER),
+					HttpStatus.UNAUTHORIZED);
 		}
 
-		return new ResponseEntity<Map>(Map.of("message", AppConst.LOGGEDIN_USER),responseHeaders, HttpStatus.OK);
+		return new ResponseEntity<Map>(
+				Map.of(RES_MESSAGE, AppConst.ResponseMessages.LOGGEDIN_USER, RES_BODY, authicatedUser), responseHeaders,
+				HttpStatus.OK);
 	}
 
-	@RequestMapping(value = path, method = RequestMethod.PUT)
+	// Update a user
+	@RequestMapping(value = PATH, method = RequestMethod.PUT)
 	public ResponseEntity<Map> updateUser(@RequestBody User user) {
-
 		Response<User> res = userService.updateUser(user);
-		return new ResponseEntity<Map>(Map.of("message", res.getMessage(),"user", res.getObject()), res.getHttpStatus());
-
+		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
+				res.getHttpStatus());
 	}
 }

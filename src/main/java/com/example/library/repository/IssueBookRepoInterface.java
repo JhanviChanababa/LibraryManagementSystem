@@ -10,6 +10,6 @@ import com.example.library.model.IssuedBook;
 
 public interface IssueBookRepoInterface extends JpaRepository<IssuedBook, UUID> {
 
-	@Query("select b from IssuedBook b")
+	@Query("select issuedBook from IssuedBook issuedBook")
 	List<IssuedBook> getIssuedBooks();
 }

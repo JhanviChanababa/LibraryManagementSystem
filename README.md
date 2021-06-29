@@ -61,7 +61,6 @@ PostgreSQL
       | id | UUID | 
       | name | String | 
       | email | String |
-      | password | String |
       | dob | Date | 
       
       `{
@@ -70,7 +69,6 @@ PostgreSQL
           "id":"d420c0b5-3d7e-4241-89f1-0e9985207593",
           "name":"test",
           "email":"test@getnada.com",
-          "password":"test@123",
           "dob":"1997/10/03"
         }
       }`
@@ -121,16 +119,14 @@ PostgreSQL
       | id | UUID | 
       | name | String | 
       | email | String |
-      | password | String |
       | dob | Date | 
       
       `{
-        "message": "User loggedin successfully",
+        "message": "User logged in successfully",
         "user": {
           "id":"d420c0b5-3d7e-4241-89f1-0e9985207593",
           "name":"test",
           "email":"test@getnada.com",
-          "password":"839ee5361e915c646d730720380875000622be701fa877689c8274c7761144b2",
           "dob":"1997/10/03"
         }
       }`
@@ -146,17 +142,11 @@ PostgreSQL
 
 * #### Path
 
-  /user
+  /user/{id}
 
 * #### Method
 
   `GET`
-  
-* #### URL Parameters
- 
-   | Key | Type  | Required  |
-   | :---:   | :-: | :-: |
-   | id | UUID | Yes |
 
 * #### Success Response
   
@@ -170,7 +160,6 @@ PostgreSQL
       | id | UUID | 
       | name | String | 
       | email | String |
-      | password | String |
       | dob | Date | 
       
       `{
@@ -179,7 +168,6 @@ PostgreSQL
           "id":"d420c0b5-3d7e-4241-89f1-0e9985207593",
           "name":"test",
           "email":"test@getnada.com",
-          "password":"839ee5361e915c646d730720380875000622be701fa877689c8274c7761144b2",
           "dob":"1997/10/03"
         }
       }`
@@ -207,7 +195,7 @@ PostgreSQL
 
 * #### Path
 
-  /user
+  /user/{id}
 
 * #### Method
 
@@ -223,6 +211,7 @@ PostgreSQL
   | dob | Date | Yes |
 
   `{
+    "id":"d420c0b5-3d7e-4241-89f1-0e9985207593",
     "name":"test",
     "email":"test@getnada.com",
     "password":"test@123",
@@ -242,16 +231,14 @@ PostgreSQL
       | id | UUID | 
       | name | String | 
       | email | String |
-      | password | String |
       | dob | Date | 
       
       `{
-        "message": "User retrieved successfully",
+        "message": "User updated successfully",
         "user": {
           "id":"d420c0b5-3d7e-4241-89f1-0e9985207593",
           "name":"test",
           "email":"test@getnada.com",
-          "password":"test@123",
           "dob":"1997/10/03"
         }
       }`
@@ -320,19 +307,17 @@ PostgreSQL
       | id | UUID | 
       | name | String | 
       | email | String |
-      | password | String |
       | dob | Date | 
       | address | String |
       | salary | Long |
       | contact_number | Long |
       
       `{
-        "message": "Librarian added successfully",
+        "message": "Librarian registered successfully",
         "librarian": {
           "id":"d420c0b5-3d7e-4241-89f1-0e9985207593"
           "name":"test",
           "email":"test@getnada.com",
-          "password":"839ee5361e915c646d730720380875000622be701fa877689c8274c7761144b6",
           "dob":"1997/10/03",
           "address":"test test",
           "salary":"25000",
@@ -386,19 +371,17 @@ PostgreSQL
       | id | UUID | 
       | name | String | 
       | email | String |
-      | password | String |
       | dob | Date | 
       | address | String |
       | salary | Long |
       | contact_number | Long |
       
       `{
-        "message": "Librarian retrieved successfully",
+        "message": "Librarian logged in successfully",
         "librarian": {
           "id":"d420c0b5-3d7e-4241-89f1-0e9985207593",
           "name":"test",
           "email":"test@getnada.com",
-          "password":"839ee5361e915c646d730720380875000622be701fa877689c8274c7761144b6",
           "dob":"1997/10/03",
           "address":"test test",
           "salary":"25000",
@@ -417,17 +400,11 @@ PostgreSQL
 
 * #### Path
 
-  /librarian
+  /librarian/{id}
 
 * #### Method:
 
   `GET`
-  
-* #### URL Parameters
- 
-   | Key | Type  | Required  |
-   | :---:   | :-: | :-: |
-   | id | UUID | Yes |
 
 * #### Success Response
   
@@ -441,7 +418,6 @@ PostgreSQL
       | id | UUID | 
       | name | String | 
       | email | String |
-      | password | String |
       | dob | Date | 
       
       `{
@@ -450,7 +426,6 @@ PostgreSQL
           "id":"d420c0b5-3d7e-4241-89f1-0e9985207593",
           "name":"test",
           "email":"test@getnada.com",
-          "password":"839ee5361e915c646d730720380875000622be701fa877689c8274c7761144b6",
           "dob":"1997/10/03",
           "address":"test test",
           "salary":"25000",
@@ -481,7 +456,7 @@ PostgreSQL
 
 * #### Path
 
-  /librarian
+  /librarian/{id}
 
 * #### Method
 
@@ -523,7 +498,6 @@ PostgreSQL
       | id | UUID | 
       | name | String | 
       | email | String |
-      | password | String |
       | dob | Date | 
       | address | String |
       | salary | Long |
@@ -535,7 +509,6 @@ PostgreSQL
           "id":"d420c0b5-3d7e-4241-89f1-0e9985207593",
           "name":"test",
           "email":"test@getnada.com",
-          "password":"839ee5361e915c646d730720380875000622be701fa877689c8274c7761144b6",
           "dob":"1997/10/03",
           "address":"test test",
           "salary":"25000",
@@ -682,7 +655,6 @@ PostgreSQL
             "id":"d420c0b5-3d7e-4241-89f1-0e9985207593"
             "name":"test",
             "email":"test@getnada.com",
-            "password":"test@123",
             "dob":"1997/10/03",
             "address":"test test",
             "salary":"25000",
@@ -701,7 +673,7 @@ PostgreSQL
 
 * #### Path
 
-  /book
+  /book/{id}
 
 * #### Method
 
@@ -786,17 +758,11 @@ PostgreSQL
 
 * #### Path
 
-  /book
+  /book/{id}
 
 * #### Method
 
   `DELETE`
-  
-* #### URL Parameters
- 
-   | Key | Type  | Required  |
-   | :---:   | :-: | :-: |
-   | id | UUID | Yes |
 
 * #### Success Response
   
@@ -946,7 +912,7 @@ PostgreSQL
 
 * #### Path
 
-  /issueBook
+  /issueBook/{id}
 
 * #### Method
 

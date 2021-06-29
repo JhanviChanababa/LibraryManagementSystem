@@ -97,7 +97,7 @@ public class BookControllerTest {
 		res.setMessage("");
 		res.setHttpStatus(HttpStatus.OK);
 
-		when(bookService.updateBook(Mockito.argThat(new BookMatcher(book)))).thenReturn(res);
+		when(bookService.updateBook(book.getId(), Mockito.argThat(new BookMatcher(book)))).thenReturn(res);
 
 		mockMvc.perform(requestBuilder).andExpect(status().isOk());
 

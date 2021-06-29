@@ -73,13 +73,13 @@ public class BookService {
 		return res;
 	}
 	
-	public Response<Book> updateBook(Book book) {
+	public Response<Book> updateBook(UUID bookId, Book book) {
 
 		Response<Book> res = new Response<Book>();
 
 		try {
 
-			Optional<Book> findBook = bookRepoInterface.findById(book.getId());
+			Optional<Book> findBook = bookRepoInterface.findById(bookId);
 
 			if (findBook.isPresent()) {
 

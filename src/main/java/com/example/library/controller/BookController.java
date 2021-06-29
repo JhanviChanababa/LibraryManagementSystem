@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,24 +45,24 @@ public class BookController {
 	}
 
 	// Update a book
-	@RequestMapping(value = PATH, method = RequestMethod.PUT)
-	public ResponseEntity<Map> updateBook(@RequestBody Book book) {
-		Response<Book> res = bookService.updateBook(book);
+	@RequestMapping(value = PATH + "/{bookId}", method = RequestMethod.PUT)
+	public ResponseEntity<Map> updateBook(@PathVariable UUID bookId, @RequestBody Book book) {
+		Response<Book> res = bookService.updateBook(bookId, book);
 		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
 				res.getHttpStatus());
 	}
 
 	// Delete a book
-	@RequestMapping(value = PATH, method = RequestMethod.DELETE)
-	public ResponseEntity<Map> deleteBook(@RequestParam UUID bookId) {
+	@RequestMapping(value = PATH + "/{bookId}", method = RequestMethod.DELETE)
+	public ResponseEntity<Map> deleteBook(@PathVariable UUID bookId) {
 		Response<Book> res = bookService.deleteBook(bookId);
 		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
 				res.getHttpStatus());
 	}
 
 	// Update book details
-	@RequestMapping(value = PATH, method = RequestMethod.PATCH, consumes = AppConst.ResponseMessages.JSON_PATCH)
-	public ResponseEntity<Map> updateBook(@RequestParam UUID bookId, @RequestBody JsonPatch patch) {
+	@RequestMapping(value = PATH + "/{bookId}", method = RequestMethod.PATCH, consumes = AppConst.ResponseMessages.JSON_PATCH)
+	public ResponseEntity<Map> updateBook(@PathVariable UUID bookId, @RequestBody JsonPatch patch) {
 		Response<Book> res = bookService.updateBookDetails(bookId, patch);
 		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
 				res.getHttpStatus());

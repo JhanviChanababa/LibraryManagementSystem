@@ -114,7 +114,7 @@ public class LibrarianControllerTest {
 		res.setMessage("");
 		res.setHttpStatus(HttpStatus.OK);
 
-		when(librarianService.updateLibrarian(Mockito.argThat(new LibraryMatcher(librarian)))).thenReturn(res);
+		when(librarianService.updateLibrarian(librarian.getId(), Mockito.argThat(new LibraryMatcher(librarian)))).thenReturn(res);
 
 		mockMvc.perform(requestBuilder).andExpect(status().isOk());
 

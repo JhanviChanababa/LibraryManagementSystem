@@ -89,7 +89,7 @@ public class LibrarianService {
 		return res;
 	}
 
-	public Response<Librarian> updateLibrarian(Librarian librarian) {
+	public Response<Librarian> updateLibrarian(UUID id, Librarian librarian) {
 
 		Response<Librarian> res = new Response<Librarian>();
 
@@ -98,7 +98,7 @@ public class LibrarianService {
 			String hashedPassword = Utility.encryptPassword(librarian.getPassword());
 			librarian.setPassword(hashedPassword);
 
-			Optional<Librarian> findLibrarian = libRepoInterface.findById(librarian.getId());
+			Optional<Librarian> findLibrarian = libRepoInterface.findById(id);
 
 			if (findLibrarian.isPresent()) {
 

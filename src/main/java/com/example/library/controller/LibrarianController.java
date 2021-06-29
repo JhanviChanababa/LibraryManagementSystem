@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,8 +31,8 @@ public class LibrarianController {
 	private static final String RES_BODY = "librarian";
 
 	// Get a librarian
-	@RequestMapping(value = PATH, method = RequestMethod.GET)
-	public ResponseEntity<Map> getLibrarian(@RequestParam UUID id) {
+	@RequestMapping(value = PATH + "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Map> getLibrarian(@PathVariable UUID id) {
 		Response<Librarian> res = librarianService.getLibrarian(id);
 		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
 				res.getHttpStatus());
@@ -71,9 +72,9 @@ public class LibrarianController {
 	}
 
 	// Update a librarian
-	@RequestMapping(value = PATH, method = RequestMethod.PUT)
-	public ResponseEntity<Map> updateLibrarian(@RequestBody Librarian lib) {
-		Response<Librarian> res = librarianService.updateLibrarian(lib);
+	@RequestMapping(value = PATH + "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Map> updateLibrarian(@PathVariable UUID id, @RequestBody Librarian lib) {
+		Response<Librarian> res = librarianService.updateLibrarian(id, lib);
 		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
 				res.getHttpStatus());
 	}

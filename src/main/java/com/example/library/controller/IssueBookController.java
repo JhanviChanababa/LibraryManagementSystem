@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,16 +46,16 @@ public class IssueBookController {
 	}
 
 	// Update an issued book
-	@RequestMapping(value = PATH, method = RequestMethod.PUT)
-	public ResponseEntity<Map> updateBookIssued(@RequestBody IssuedBook bookIssued) {
-		Response<IssuedBook> res = issueBookService.updateIssuedBook(bookIssued);
+	@RequestMapping(value = PATH + "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Map> updateBookIssued(@PathVariable UUID id, @RequestBody IssuedBook bookIssued) {
+		Response<IssuedBook> res = issueBookService.updateIssuedBook(id, bookIssued);
 		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
 				res.getHttpStatus());
 	}
 
 	// Update details of an issued book 
-	@RequestMapping(value = PATH, method = RequestMethod.PATCH, consumes = AppConst.ResponseMessages.JSON_PATCH)
-	public ResponseEntity<Map> updateBookIssued(@RequestParam UUID id, @RequestBody JsonPatch patch) {
+	@RequestMapping(value = PATH + "/{id}", method = RequestMethod.PATCH, consumes = AppConst.ResponseMessages.JSON_PATCH)
+	public ResponseEntity<Map> updateBookIssued(@PathVariable UUID id, @RequestBody JsonPatch patch) {
 		Response<IssuedBook> res = issueBookService.updateIssuedBookDetails(id, patch);
 		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
 				res.getHttpStatus());

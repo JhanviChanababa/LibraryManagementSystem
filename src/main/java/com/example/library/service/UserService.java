@@ -19,7 +19,7 @@ public class UserService {
 
 	@Autowired
 	UserRepoInterface userRepoInterface;
-	
+
 	public Response<User> getUser(UUID id) {
 
 		Response<User> res = new Response<User>();
@@ -45,7 +45,7 @@ public class UserService {
 	public Response<User> addUser(User user) {
 
 		Response<User> res = new Response<User>();
-		
+
 		try {
 
 			String hashedPassword = Utility.encryptPassword(user.getPassword());
@@ -87,7 +87,7 @@ public class UserService {
 		return null;
 	}
 
-	public Response<User> updateUser(User user) {
+	public Response<User> updateUser(UUID id, User user) {
 
 		Response<User> res = new Response<User>();
 
@@ -96,7 +96,7 @@ public class UserService {
 			String hashedPassword = Utility.encryptPassword(user.getPassword());
 			user.setPassword(hashedPassword);
 
-			Optional<User> findUser = userRepoInterface.findById(user.getId());
+			Optional<User> findUser = userRepoInterface.findById(id);
 
 			if (findUser.isPresent()) {
 

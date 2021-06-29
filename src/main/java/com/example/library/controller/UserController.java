@@ -30,8 +30,8 @@ public class UserController {
 	private static final String RES_BODY = "user";
 
 	// Get a user by id
-	@RequestMapping(value = PATH, method = RequestMethod.GET)
-	public ResponseEntity<Map> getUser(@RequestParam UUID id) {
+	@RequestMapping(value = PATH + "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Map> getUser(@PathVariable UUID id) {
 		Response<User> res = userService.getUser(id);
 		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
 				res.getHttpStatus());
@@ -69,9 +69,9 @@ public class UserController {
 	}
 
 	// Update a user
-	@RequestMapping(value = PATH, method = RequestMethod.PUT)
-	public ResponseEntity<Map> updateUser(@RequestBody User user) {
-		Response<User> res = userService.updateUser(user);
+	@RequestMapping(value = PATH + "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Map> updateUser(@PathVariable UUID id, @RequestBody User user) {
+		Response<User> res = userService.updateUser(id, user);
 		return new ResponseEntity<Map>(Map.of(RES_MESSAGE, res.getMessage(), RES_BODY, res.getObject()),
 				res.getHttpStatus());
 	}

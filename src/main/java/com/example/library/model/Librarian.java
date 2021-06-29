@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "librarian")
@@ -28,6 +29,7 @@ public class Librarian {
 	@Column(unique = true)
 	private String email;
 
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")

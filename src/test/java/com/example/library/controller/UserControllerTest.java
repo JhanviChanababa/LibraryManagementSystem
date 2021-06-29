@@ -110,7 +110,7 @@ public class UserControllerTest {
 		res.setMessage("");
 		res.setHttpStatus(HttpStatus.OK);
 
-		when(userService.updateUser(Mockito.argThat(new UserMatcher(user)))).thenReturn(res);
+		when(userService.updateUser(user.getId(), Mockito.argThat(new UserMatcher(user)))).thenReturn(res);
 
 		mockMvc.perform(requestBuilder).andExpect(status().isOk());
 

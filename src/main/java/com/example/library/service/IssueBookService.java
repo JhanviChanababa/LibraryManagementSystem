@@ -87,7 +87,7 @@ public class IssueBookService {
 		return issueBookInterface.getIssuedBooks();
 	}
 
-	public Response<IssuedBook> updateIssuedBook(IssuedBook issueBook) {
+	public Response<IssuedBook> updateIssuedBook(UUID id, IssuedBook issueBook) {
 
 		Response<IssuedBook> res = new Response<IssuedBook>();
 
@@ -98,17 +98,26 @@ public class IssueBookService {
 
 			if (user.isPresent() && book.isPresent()) {
 
-				IssuedBook issuedBook = issueBookInterface.save(issueBook);
-
-				if (issuedBook == null) {
-					res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
-					res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+				Optional<IssuedBook> findIssuedBook = issueBookInterface.findById(id);
+				
+				if(findIssuedBook.isPresent()) {
+					
+					IssuedBook issuedBook = issueBookInterface.save(issueBook);
+					
+					if (issuedBook == null) {
+						res.setMessage(AppConst.ResponseMessages.INTERNAL_SERVER_ERROR);
+						res.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+					} else {
+						
+						issuedBookRepo.updateBookIssued(issuedBook);
+						res.setObject(issuedBook);
+						res.setMessage(AppConst.ResponseMessages.ISSUE_BOOK_UPDATED);
+						res.setHttpStatus(HttpStatus.OK);
+					}
+					
 				} else {
-
-					issuedBookRepo.updateBookIssued(issuedBook);
-					res.setObject(issuedBook);
-					res.setMessage(AppConst.ResponseMessages.ISSUE_BOOK_UPDATED);
-					res.setHttpStatus(HttpStatus.OK);
+					res.setMessage(AppConst.ResponseMessages.ISSUE_BOOK_NOT_EXISTS);
+					res.setHttpStatus(HttpStatus.NOT_FOUND);
 				}
 
 			} else {
